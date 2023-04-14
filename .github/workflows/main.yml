@@ -25,8 +25,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION_NAME }}
 
       - name: Copy deployment package to S3 bucket
-        run: aws s3 cp ${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/ "${{ env.EB_ENVIRONMENT_NAME }}/${{ github.sha }}.zip"
-
+        run: aws s3 cp "${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/${{ github.sha }}.zip" "s3://${{ env.EB_ENVIRONMENT_NAME }}/${{ github.sha }}.zip"
       - name: Create new Elastic Beanstalk application version
         run: aws elasticbeanstalk create-application-version \
              --application-name ${{ env.EB_APPLICATION_NAME }} \
