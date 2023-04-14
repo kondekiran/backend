@@ -3,6 +3,7 @@ env:
    EB_PACKAGE_S3_BUCKET_NAME :  " Eshopbackend"
    EB_ENVIROMENT_NAME        :  " Eshopbackend"
    EB_APPLICATION_NAME       :  " Eshop"
+   AWS_REGION_NAME           :  "us-east-1"
 
 on:
   push:
@@ -30,6 +31,7 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region    : ${{ env.AWS_REGION_NAME }}
       - name: Create new ElasticBeanstalk Applicaiton Version
         run : 
             aws elasticbeanstalk create-application-version \
