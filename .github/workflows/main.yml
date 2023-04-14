@@ -24,6 +24,7 @@ jobs:
         with:
              aws-access-key-id    : AKIA6IMGFOSM3IQ6EUPS
              aws-secret-access-key: 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
+             aws-region-name      : us-east-1
       - name: Copy our Deployment package to S3 bucket
         run : aws s3 cp ${{ env.EB_PACKAGE_S3_BUCKET_NAME}}/
       - name: Configure my AWS Credentils
