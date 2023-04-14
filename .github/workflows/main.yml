@@ -3,7 +3,6 @@ env:
    EB_PACKAGE_S3_BUCKET_NAME :  " Eshopbackend"
    EB_ENVIROMENT_NAME        :  " Eshopbackend"
    EB_APPLICATION_NAME       :  " Eshop"
-   AWS_REGION_NAME           :  "us-east-1"
 
 on:
   push:
@@ -24,7 +23,6 @@ jobs:
         with:
              aws-access-key-id    : AKIA6IMGFOSM3IQ6EUPS
              aws-secret-access-key: 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
-             aws-region           : us-east-1
       - name: Copy our Deployment package to S3 bucket
         run : aws s3 cp ${{ env.EB_PACKAGE_S3_BUCKET_NAME}}/
       - name: Configure my AWS Credentils
@@ -32,7 +30,6 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region    : ${{ env.AWS_REGION_NAME }}
       - name: Create new ElasticBeanstalk Applicaiton Version
         run : 
             aws elasticbeanstalk create-application-version \
