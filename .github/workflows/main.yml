@@ -28,13 +28,13 @@ jobs:
           aws-region: "us-east-1"
       - name: Upload package to S3 bucket
         run: aws s3 cp deploy_package.zip s3://eshopbackend/
-     
       - name: Create new Elastic Beanstalk application version
         run: aws elasticbeanstalk create-application-version \
-         --application-name Eshop \
+         --application-name ${{ env.EB_APPLICATION_NAME }} \
          --version-label "Ver-${{ github.sha }}" \
-         --source-bundle S3Bucket="eshopbackend",S3Key="deploy_package.zip" \
+         --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BUCKET_NAME }}",S3Key="deploy_package.zip" \
          --description "commit-sha-${{ github.sha }}"
+
 
       - name: Deploy new ElasticBeanstalk Application Version
         run: aws elasticbeanstalk update-environment --environment-name Eshopbackend-env-1 --version-label "ver-${{ github.sha }}"
