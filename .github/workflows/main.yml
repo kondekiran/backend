@@ -1,7 +1,7 @@
 name: Deploy to eb
 env:
    EB_PACKAGE_S3_BUCKET_NAME: "eshopbackend1"
-   EB_ENVIRONMENT_NAME: "Eshopbackend"
+   EB_ENVIRONMENT_NAME: "Eshop-env"
    EB_APPLICATION_NAME: "Eshop"
 
 
@@ -37,6 +37,6 @@ jobs:
 
 
       - name: Deploy new ElasticBeanstalk Application Version
-        run: aws elasticbeanstalk update-environment --environment-name Eshopbackend-env-1 --version-label "ver-${{ github.sha }}"
+        run: aws elasticbeanstalk update-environment --environment-name Eshop-env-1 --version-label "ver-${{ github.sha }}"
 
 
