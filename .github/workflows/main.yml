@@ -3,6 +3,7 @@ env:
    EB_PACKAGE_S3_BUCKET_NAME: "eshopbackend1"
    EB_ENVIRONMENT_NAME: "Eshop-env"
    EB_APPLICATION_NAME: "Eshop"
+   EB_VERSION_LABEL: "Ver-${{ github.sha }}"
 
 
 on:
