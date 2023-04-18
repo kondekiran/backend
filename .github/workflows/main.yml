@@ -1,6 +1,6 @@
 name: Deploy to eb
 env:
-   EB_PACKAGE_S3_BUCKET_NAME: "Eshopbackend"
+   EB_PACKAGE_S3_BUCKET_NAME: "eshopbackend1"
    EB_ENVIRONMENT_NAME: "Eshopbackend"
    EB_APPLICATION_NAME: "Eshop"
 
@@ -27,7 +27,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
       - name: Upload package to S3 bucket
-        run: aws s3 cp deploy_package.zip s3://eshopbackend/
+        run: aws s3 cp deploy_package.zip s3://eshopbackend1/
       - name: Create new Elastic Beanstalk application version
         run: aws elasticbeanstalk create-application-version \
          --application-name ${{ env.EB_APPLICATION_NAME }} \
