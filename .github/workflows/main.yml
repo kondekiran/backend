@@ -1,43 +1,27 @@
-name: Deploy to eb
-env:
-   EB_PACKAGE_S3_BUCKET_NAME: "eshopbackend1"
-   EB_ENVIRONMENT_NAME: "Eshop-env"
-   EB_APPLICATION_NAME: "Eshop"
-   EB_VERSION_LABEL: "Ver-${{ github.sha }}"
-
-
+name: Deploy master
 on:
   push:
     branches:
-      - master
+    - master
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v2
 
-      - name: Create ZIP deployment package
-        run: zip -r deploy_package.zip ./
-        
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-1"
-      - name: Upload package to S3 bucket
-        run: aws s3 cp deploy_package.zip s3://eshopbackend1/
-      - name: Create new Elastic Beanstalk application version
-        run: aws elasticbeanstalk create-application-version \
-         --application-name ${{ env.EB_APPLICATION_NAME }} \
-         --version-label "Ver-${{ github.sha }}" \
-         --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BUCKET_NAME }}",S3Key="deploy_package.zip" \
-         --description "commit-sha-${{ github.sha }}"
+    - name: Checkout source code
+      uses: actions/checkout@v2
 
+    - name: Generate deployment package
+      run: zip -r Eshop.zip . -x '*.git*'
 
-      - name: Deploy new ElasticBeanstalk Application Version
-        run: aws elasticbeanstalk update-environment --environment-name Eshop-env-1 --version-label "ver-${{ github.sha }}"
-
-
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: Eshop
+        environment_name: Eshopbackend
+        version_label: 1
+        region: us-east-1
+        deployment_package: Eshop.zip
