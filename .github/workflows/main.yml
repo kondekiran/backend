@@ -11,6 +11,10 @@ jobs:
 
     - name: Checkout source code
       uses: actions/checkout@v2
+      
+    - name: Create .runtimeconfig.json file
+      run: |
+        echo '{"runtimeOptions": {"tfm": "netcoreapp3.1", "framework": {"name": "Microsoft.NETCore.App", "version": "3.1.0"}}}' > Eshop.runtimeconfig.json
 
     - name: Generate deployment package
       run: zip -r Eshop.zip . -x '*.git*'
