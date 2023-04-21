@@ -17,7 +17,10 @@ jobs:
         echo '{"runtimeOptions": {"tfm": "netcoreapp3.1", "framework": {"name": "Microsoft.NETCore.App", "version": "3.1.0"}}}' > Eshop.runtimeconfig.json
 
     - name: Generate deployment package
-      run: zip -r Eshop.zip . -x '*.git*'
+      run: |
+        dotnet new --runtimeconfig
+        zip -r Eshop.zip . -x '*.git*' -x '*.runtimeconfig.json'
+
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v21
