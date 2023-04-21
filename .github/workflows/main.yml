@@ -2,7 +2,7 @@ name: Deploy master
 on:
   push:
     branches:
-    - master
+      - master
 
 jobs:
   build:
@@ -11,16 +11,11 @@ jobs:
 
     - name: Checkout source code
       uses: actions/checkout@v2
-      
-    - name: Create .runtimeconfig.json file
-      run: |
-        echo '{"runtimeOptions": {"tfm": "netcoreapp3.1", "framework": {"name": "Microsoft.NETCore.App", "version": "3.1.0"}}}' > Eshop.runtimeconfig.json
 
     - name: Generate deployment package
       run: |
         dotnet new --runtimeconfig
         zip -r Eshop.zip . -x '*.git*' -x '*.runtimeconfig.json'
-
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v21
@@ -29,7 +24,7 @@ jobs:
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         application_name: Eshop
         environment_name: Eshop-env
-        version_label: 2.5
+        version_label: 3.5
         use_existing_version_if_available: true
         region: us-east-1
         deployment_package: Eshop.zip
